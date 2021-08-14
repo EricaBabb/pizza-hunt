@@ -68,6 +68,8 @@ const handlePizzaSubmit = event => {
     })
     .catch(err => {
       console.log(err);
+      //If no network connection; save the records to indexDB's new_pizza object store
+      saveRecord(formData);
     });
 };
 
