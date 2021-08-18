@@ -57,19 +57,18 @@ createPizza({ body }, res) {
   },
 
 
-  // update pizza by id
+// update pizza by id
 updatePizza({ params, body }, res) {
-    Pizza.findOneAndUpdate({ _id: params.id }, body, { new: true })
-    //Setting new: true we are telling Mongoose to return the new version of the document
-      .then(dbPizzaData => {
-        if (!dbPizzaData) {
-          res.status(404).json({ message: 'No pizza found with this id!' });
-          return;
-        }
-        res.json(dbPizzaData);
-      })
-      .catch(err => res.status(400).json(err));
-  },
+  Pizza.findOneAndUpdate({ _id: params.id }, body, { new: true, runValidators: true })
+    .then(dbPizzaData => {
+      if (!dbPizzaData) {
+        res.status(404).json({ message: 'No pizza found with this id!' });
+        return;
+      }
+      res.json(dbPizzaData);
+    })
+    .catch(err => res.status(400).json(err));
+},
   // delete pizza
 deletePizza({ params }, res) {
     Pizza.findOneAndDelete({ _id: params.id })
